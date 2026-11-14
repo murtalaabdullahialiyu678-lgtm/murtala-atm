@@ -27,4 +27,4 @@ if st.button("Withdraw"):
         st.session_state.balance -= amount
         st.success(f"New balance: {st.session_state.balance}")
     else:
-        st.error("Not enough money"
+        st.error("Not enough money")
