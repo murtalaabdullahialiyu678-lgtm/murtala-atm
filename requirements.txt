@@ -1,13 +1,1 @@
-import streamlit as st
-
-st.title("Murtala ATM")
-
-name = st.text_input("What is your name?")
-pin = st.text_input("Enter your PIN:", type="password")
-
-if st.button("Enter"):
-    if pin == "1234":
-        st.success("Welcome " + name)
-        st.write("Your balance is 50,000 Naira")
-    else:
-        st.error("Wrong PIN! Access denied")
+streamlit
