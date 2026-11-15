@@ -1,30 +1,48 @@
 
 import streamlit as st
+import random
 
-st.title("Murtala ATM")
-
-name = st.text_input("What is your name?")
-pin = st.text_input("Enter your PIN:", type="password")
+st.title("📈 Murtala Trader - BTC")
 
 if "balance" not in st.session_state:
     st.session_state.balance = 50000
+if "btc_price" not in st.session_state:
+    st.session_state.btc_price = 95000
 
-if st.button("Login"):
-    if pin == "1234":
-        st.success(f"Welcome {name}")
-        st.write(f"Your balance is {st.session_state.balance} Naira")
-    else:
-        st.error("Wrong PIN! Access denied")
+st.write(f"Your balance is {st.session_state.balance} Naira")
+st.write(f"Bitcoin Price Now: ${st.session_state.btc_price}")
 
-amount = st.number_input("Amount:", min_value=0)
+st.write("---")
+amount = st.number_input("How much you wan stake?", min_value=100, max_value=10000, value=1000)
 
-if st.button("Deposit"):
-    st.session_state.balance += amount
-    st.success(f"New balance: {st.session_state.balance}")
+col1, col2 = st.columns(2)
 
-if st.button("Withdraw"):
-    if amount <= st.session_state.balance:
-        st.session_state.balance -= amount
-        st.success(f"New balance: {st.session_state.balance}")
-    else:
-        st.error("Not enough money")
+with col1:
+    if st.button("🟢 UP - Price go go up"):
+        old_price = st.session_state.btc_price
+        new_price = old_price + random.randint(-2000, 2000)
+        st.session_state.btc_price = new_price
+        if new_price > old_price:
+            win = int(amount * 1.8)
+            st.session_state.balance += win
+            st.success(f"You WIN! Price go from ${old_price} to ${new_price}. You win {win} Naira!")
+        else:
+            st.session_state.balance -= amount
+            st.error(f"You LOSE! Price go from ${old_price} to ${new_price}. You lose {amount} Naira.")
+
+with col2:
+    if st.button("🔴 DOWN - Price go go down"):
+        old_price = st.session_state.btc_price
+        new_price = old_price + random.randint(-2000, 2000)
+        st.session_state.btc_price = new_price
+        if new_price < old_price:
+            win = int(amount * 1.8)
+            st.session_state.balance += win
+            st.success(f"You WIN! Price go from ${old_price} to ${new_price}. You win {win} Naira!")
+        else:
+            st.session_state.balance -= amount
+            st.error(f"You LOSE! Price go from ${old_price} to ${new_price}. You lose {amount} Naira.")
+
+if st.button("Reset Balance"):
+    st.session_state.balance = 50000
+    st.session_state.btc_price = 95000
